@@ -66,20 +66,20 @@ li {
 }
 
 .header-logo {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 700;
   color: #F9FAF8;
 }
 
 .hero-main {
-  font-size: 36px;
+  font-size: 48px;
   font-weight: 700;
   color: #F9FAF8;
 }
 
 .hero-secondary,
 .header-links {
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 300;
   color: #E5E7EB;
 }
@@ -96,7 +96,7 @@ button {
 
 button {
   font-weight: 500;
-  font-size: 12px;
+  font-size: 18px;
   border-radius: 8px;
   border: none;
 }
@@ -116,7 +116,7 @@ button a {
 }
 
 .info-header {
-  font-size: 26px;
+  font-size: 36px;
   font-weight: 700;
   color: #1F2937;
 }
@@ -143,7 +143,7 @@ button a {
 }
 
 .li-img-caption {
-  font-size: 13px;
+  font-size: 18px;
   color: #57585c;
   padding: 8px 1px 8px 0;
   text-align: center;
@@ -157,7 +157,7 @@ button a {
 }
 
 .quote-text {
-  font-size: 26px;
+  font-size: 36px;
   font-style: italic;
   font-weight:300;
   color: #1F2937;
@@ -167,6 +167,7 @@ button a {
 
 .quote-attribute {
   font-weight: 700;
+  font-size: 20px;
   display: flex;
   justify-content: flex-end;
 }
@@ -184,12 +185,12 @@ button a {
 }
 
 .call-to-action-header {
-  font-size: 16px;
+  font-size: 20px;
   font-weight:500;
 }
 
 .secondary-text {
-  font-size: 13px;
+  font-size: 18px;
   font-weight: 300;
 }
 
@@ -202,7 +203,7 @@ button a {
 }
 
 .footer-text {
-  font-size: 12px;
+  font-size: 18px;
   font-weight: 400;
   color: #E5E7EB;
   text-align: center;
