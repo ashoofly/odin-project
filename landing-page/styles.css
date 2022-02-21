@@ -38,7 +38,11 @@ li {
   align-items: center;
 }
 
-#header a:hover {
+.header-logo a:hover {
+  color: inherit;
+}
+
+.header-links a:hover {
   color: #a5abe6;
 }
 
@@ -215,4 +219,12 @@ button a {
 
 .footer a:hover {
   color: #c8e0f7;
+}
+
+.navigation {
+  padding: 15px;
+}
+
+.navigation a:hover {
+  color: #a5abe6;
 }
