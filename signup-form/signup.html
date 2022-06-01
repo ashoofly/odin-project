@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Buy Nothing Example Signup</title>
-  <link href="https://fonts.tildacdn.com/get/?fonts=1778,1779,1780,1781&amp;format=woff2" rel="stylesheet" type="text/css" media="all">
+  <link rel="stylesheet" href="../common/styles.css">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -34,7 +34,7 @@
       </div>
       <div class="sign-up-form">
         <h3>Sign Up</h3>
-        <form action="http://httpbin.org/post" method="post">
+        <form novalidate id="signup-form" action="https://httpbin.org/post" method="post">
           <div class="container">
             <div class="inputField">
               <label for="firstName">First Name</label>
@@ -45,20 +45,23 @@
               <input type="text" id="lastName" name="last_name">
             </div>
             <div class="inputField">
-              <label for="userEmail">E-mail</label>
-              <input type="email" id="userEmail" name="email">
+              <label for="userEmail">E-mail*</label>
+              <input pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" type="email" id="userEmail" name="email" required>
+              <span id="emailError" class="error" aria-live="polite"></span>
             </div>
             <div class="inputField">
               <label for="phoneNumber">Phone Number</label>
-              <input type="number" id="phoneNumber" name="phone">
+              <input id="phoneNumber" name="phone" onkeydown="phoneNumberFormatter()" placeholder="0123456789">
             </div>
             <div class="inputField">
-              <label for="createPassword">Password</label>
-              <input type="password" id="createPassword" name="password">
+              <label for="createPassword">Password*</label>
+              <input type="password" id="createPassword" name="password" required>
+              <span id="createPasswordError" class="error" aria-live="polite"></span>
             </div>
             <div class="inputField">
-              <label for="confirmPassword">Confirm Password</label>
-              <input type="password" id="confirmPassword">
+              <label for="confirmPassword">Confirm Password*</label>
+              <input type="password" id="confirmPassword" required>
+              <span id="confirmPasswordError" class="error" aria-live="polite"></span>
             </div>
           </div>
           <button type="submit">Create Account</button>
@@ -68,11 +71,7 @@
         <p>Already created an account? <a href="">Log in</a></p>
       </div>
     </div>
-    <div>
-      <form>
-
-      </form>
-    </div>
   </div>
+  <script src="../common/validation.js"></script>
 </body>
 </html>
