@@ -100,7 +100,7 @@ function showEmailError() {
   if (email.validity.valueMissing) {
     emailError.textContent = 'An e-mail address is required.';
   } else if (email.validity.patternMismatch) {
-    emailError.textContent = 'E-mail must be of the format: bob@example.com';
+    emailError.textContent = 'E-mail must be of the format: mrrogers@neighborhood.com';
   }
   emailError.className = 'error active';
   email.className = 'highlight-error';
