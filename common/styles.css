@@ -98,9 +98,9 @@ li {
 
 .footer-text {
   font-size: 18px;
+  text-align: center;
   font-weight: 400;
   color: #E5E7EB;
-  text-align: center;
 }
 
 .footer a {

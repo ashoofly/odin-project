@@ -1,14 +1,5 @@
-Unsplash photo credit: https://unsplash.com/photos/bY_q4VodUc0
-
 Questions:
 font: px
 padding: px
 etc
 if window too small, won't scroll up. when scroll down, background does not extend to end.
-
-To do:
-* validation:
-  * passwords must match
-  * if phone exists, validation of correct number of digits
-* lastpass can autofill
-
