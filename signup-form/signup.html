@@ -51,7 +51,8 @@
             </div>
             <div class="inputField">
               <label for="phoneNumber">Phone Number</label>
-              <input id="phoneNumber" name="phone" onkeydown="phoneNumberFormatter()" placeholder="0123456789">
+              <input id="phoneNumber" name="phone" placeholder="0123456789" pattern="^\(\d{3}\)\s\d{3}-\d{4}">
+              <span id="phoneNumberError" class="error" aria-live="polite"></span>
             </div>
             <div class="inputField">
               <label for="createPassword">Password*</label>

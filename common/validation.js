@@ -1,35 +1,48 @@
-function phoneNumberFormatter() {
-  const inputField = document.getElementById('phoneNumber');
-  const formattedInputValue = formatPhoneNumber(inputField.value);
-  inputField.value = formattedInputValue;
-}
-
-function formatPhoneNumber(value) {
-  if (!value) return value;
-
-  // remove all non-digit characters
-  const phoneNumber = value.replace(/[^\d]/g, '');
-  const phoneNumberLength = phoneNumber.length;
-
-  // don't auto-format until you get past area code
-  if (phoneNumberLength < 4) return phoneNumber;
-
-  // start to format number
-  if (phoneNumberLength < 7) return `(${phoneNumber.slice(0,3)}) ${phoneNumber.slice(3)}`;
-
-  // final formatted number
-  return `(${phoneNumber.slice(0,3)}) ${phoneNumber.slice(3,6)}-${phoneNumber.slice(6,9)}`;
-}
-
 const form = document.getElementById('signup-form');
 const email = document.getElementById('userEmail');
 const emailError = document.getElementById('emailError');
 const phone = document.getElementById('phoneNumber');
+const phoneError = document.getElementById('phoneNumberError');
 const createPassword = document.getElementById('createPassword');
 const createPasswordError = document.getElementById('createPasswordError');
 const confirmPassword = document.getElementById('confirmPassword');
 const confirmPasswordError = document.getElementById('confirmPasswordError');
 
+function formatUSPhoneNumber(phone) {
+  const value = phone.value;
+  if (!value) return;
+
+  // remove all non-digit characters
+  const phoneNumber = value.replace(/[^\d]/g, '');
+  const phoneNumberLength = phoneNumber.length;
+
+  let phoneNumberToFormat;
+
+  // accommodate auto-fill numbers with international +1
+  if (phoneNumberLength == 11 && phoneNumber.slice(0,1) == 1) {
+    phoneNumberToFormat = phoneNumber.slice(1);
+  } else if (phoneNumberLength == 10) {
+    phoneNumberToFormat = phoneNumber;
+  } else {
+    //invalid phone number, do nothing
+    return; 
+  }
+  
+  // format valid phone number
+  phone.value = `(${phoneNumberToFormat.slice(0,3)}) ${phoneNumberToFormat.slice(3,6)}-${phoneNumberToFormat.slice(6)}`;
+}
+
+phone.addEventListener('blur', function(event) {
+  formatUSPhoneNumber(phone);
+  if (!phone.validity.valid) {
+    showPhoneNumberError();
+
+  } else {
+    phoneNumberError.textContent = '';
+    phoneNumberError.className = 'error';
+    phone.className = '';
+  }
+});
 
 // remove error message if valid
 email.addEventListener('input', function(event) {
@@ -49,7 +62,7 @@ createPassword.addEventListener('input', function(event) {
 });
 
 confirmPassword.addEventListener('input', function(event) {
-  if (confirmPassword.validity.valid) {
+  if (confirmPasswordValid()) {
     confirmPasswordError.textContent = '';
     confirmPasswordError.className = 'error';
     confirmPassword.className = '';
@@ -59,7 +72,8 @@ confirmPassword.addEventListener('input', function(event) {
 form.addEventListener('submit', function (event) {
   if (email.validity.valid && 
       createPassword.validity.valid && 
-      confirmPassword.validity.valid) 
+      confirmPasswordValid() && 
+      phoneNumber.validity.valid) 
     return;
 
   if (!email.validity.valid) {
@@ -68,12 +82,19 @@ form.addEventListener('submit', function (event) {
   if (!createPassword.validity.valid) {
     showCreatePasswordError();
   }
-  if (!confirmPassword.validity.valid) {
+  if (!confirmPasswordValid()) {
     showConfirmPasswordError();
   }
+  if (!phoneNumber.validity.valid) {
+    showPhoneNumberError();
+  }
   event.preventDefault();
-
 });
+
+function confirmPasswordValid() {
+  if (!confirmPassword.validity.valid) return false;
+  return createPassword.value == confirmPassword.value;
+}
 
 function showEmailError() {
   if (email.validity.valueMissing) {
@@ -96,7 +117,17 @@ function showCreatePasswordError() {
 function showConfirmPasswordError() {
   if (confirmPassword.validity.valueMissing) {
     confirmPasswordError.textContent = 'Please confirm password.';
+  } else if (createPassword.value != confirmPassword.value) {
+    confirmPasswordError.textContent = 'Passwords must match!';
   }
   confirmPasswordError.className = 'error active';
   confirmPassword.className = 'highlight-error';
+}
+
+function showPhoneNumberError() {
+  if (phoneNumber.validity.patternMismatch) {
+    phoneNumberError.textContent = 'Must be a 10-digit U.S. phone number.';
+  }
+  phoneNumberError.className = 'error active';
+  phoneNumber.className = 'highlight-error';
 }
