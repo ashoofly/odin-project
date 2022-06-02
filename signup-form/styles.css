@@ -1,7 +1,5 @@
 body {
   display: flex;
-  justify-content: space-evenly;
-  align-items: center;
   min-height: 100vh;
 }
 
@@ -12,7 +10,7 @@ button {
 
 .image-sidebar {
   background-image: url("images/community_garden.jpg");
-  min-height: 100vh;
+  background-size: cover;
 
   /* properties as flex child */
   flex-grow: 1;
@@ -42,7 +40,6 @@ button {
 .main-content {
   box-sizing: border-box;
   padding: 30px;
-  min-height: 100vh;
   flex-grow: 2;
   background-color: rgb(145,233,106, 0.2);
   color: rgb(28, 90, 2);

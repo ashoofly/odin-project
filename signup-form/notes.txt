@@ -1,7 +1,0 @@
-Questions:
-1. font: px
-padding: px
-
-2. if window too small, won't scroll up. when scroll down, background does not extend to end.
-
-3. some changes like spacing did not load until i opened in incognito browser, what part is cached? 
