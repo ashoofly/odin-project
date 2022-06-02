@@ -1,0 +1,99 @@
+body {
+  display: flex;
+  min-height: 100vh;
+}
+
+button {
+  background-color: rgb(28, 90, 2);
+  color: #F9FAF8;
+}
+
+.image-sidebar {
+  background-image: url("images/community_garden.jpg");
+  background-size: cover;
+
+  /* properties as flex child */
+  flex-grow: 1;
+
+  /* is also flex parent */
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-strip {
+  background-color: rgb(0, 0, 0, 0.3);
+  width: 100%;
+  padding-top: 2em;
+  padding-bottom: 2em;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.buy-nothing-title {
+  color: rgb(145,233,106);
+}
+
+.main-content {
+  box-sizing: border-box;
+  padding: 30px;
+  flex-grow: 2;
+  background-color: rgb(145,233,106, 0.2);
+  color: rgb(28, 90, 2);
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+}
+
+.explanation {
+  max-width: 1000px;
+}
+
+.content-text {
+  max-width: 1000px;
+}
+
+.footer {
+  background-color: rgb(0, 0, 0, 0.3);
+  width: 100%;
+  padding: 0;
+}
+
+.footer a {
+  color: white;
+}
+
+.sign-up-form {
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  padding-top: 1em;
+  padding-left: 3em;
+  padding-bottom: 3em;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 300px 300px;
+  grid-template-rows: 55px 55px 55px;
+  grid-auto-rows: 50px;
+  row-gap: 40px;
+  column-gap: 10px;
+  padding-top: 10px;
+  padding-bottom: 50px;
+}
+
+.inputField {
+  display: flex;
+  flex-flow: column;
+}
+
+.create-account {
+  display: flex;
+  justify-content: center;
+}

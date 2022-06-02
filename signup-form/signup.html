@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buy Nothing Example Signup</title>
+  <link rel="stylesheet" href="../common/styles.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  
+  <div class="image-sidebar">
+    <div></div>
+    <div class="logo-strip">
+      <img src="images/buy-nothing-logo.png">
+      <h1 class="buy-nothing-title">Buy Nothing Project</h1>
+    </div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div class="footer">
+      <p class="footer-text">Photo by <a href="https://unsplash.com/@sradams57">Steve Adams</a> on <a href="https://unsplash.com/photos/bY_q4VodUc0">Unsplash</a></p>
+    </div>
+  </div>
+  <div class="main-content">
+    <div class="content-text">
+      <div class="intro">
+        <h2>Join the Buy Nothing community in your neighborhood!</h2>
+        <div class="explanation">
+          <p>This is a dummy signup form to practice CSS that I created for an organization I like. I thought it would be great to build out a web app for them, but I have recently learned that they are actually about to launch one themselves!</p>
+            
+          <p>You can go to the actual <a href="https://buynothingproject.org/" target="_blank">Buy Nothing Project</a> site to see if the product has launched yet.</p>
+          <br/>
+          <p><b>Note: this form will not actually sign you up for anything.</b></p>
+        </div>
+      </div>
+      <div class="sign-up-form">
+        <h3>Sign Up</h3>
+        <form novalidate id="signup-form" action="https://httpbin.org/post" method="post">
+          <div class="container">
+            <div class="inputField">
+              <label for="firstName">First Name</label>
+              <input type="text" id="firstName" name="first_name">
+            </div>
+            <div class="inputField">
+              <label for="lastName">Last Name</label>
+              <input type="text" id="lastName" name="last_name">
+            </div>
+            <div class="inputField">
+              <label for="userEmail">E-mail*</label>
+              <input pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" type="email" id="userEmail" name="email" required>
+              <span id="emailError" class="error" aria-live="polite"></span>
+            </div>
+            <div class="inputField">
+              <label for="phoneNumber">Phone Number</label>
+              <input id="phoneNumber" name="phone" placeholder="0123456789" pattern="^\(\d{3}\)\s\d{3}-\d{4}">
+              <span id="phoneNumberError" class="error" aria-live="polite"></span>
+            </div>
+            <div class="inputField">
+              <label for="createPassword">Password*</label>
+              <input type="password" id="createPassword" name="password" required>
+              <span id="createPasswordError" class="error" aria-live="polite"></span>
+            </div>
+            <div class="inputField">
+              <label for="confirmPassword">Confirm Password*</label>
+              <input type="password" id="confirmPassword" required>
+              <span id="confirmPasswordError" class="error" aria-live="polite"></span>
+            </div>
+          </div>
+          <button type="submit">Create Account</button>
+        </form>
+      </div>
+      <div class="create-account">
+        <p>Already created an account? <a href="">Log in</a></p>
+      </div>
+    </div>
+  </div>
+  <script src="../common/validation.js"></script>
+</body>
+</html>
