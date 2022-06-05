@@ -1,0 +1,55 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#choices {
+  display: flex;
+}
+
+button {
+  background-color: #3882F6;
+  color: #F9FAF8;
+}
+
+#round_result {
+  display: flex;
+  justify-content: space-between;
+}
+
+.game-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.weapon-img {
+  max-height: 300px;
+  margin: 15px;
+  border: 5px solid black;
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.player-hover {
+  border: 7px solid #2098D1;
+}
+
+.win {
+  border: 7px solid rgb(65, 201, 65);
+}
+
+.loss {
+  border: 7px solid red;
+}
+
+.tie {
+  border: 7px solid orange;
+}
