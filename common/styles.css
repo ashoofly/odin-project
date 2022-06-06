@@ -38,6 +38,14 @@ p {
   font-size: 20px;
 }
 
+th, td {
+  padding: 10px;
+}
+
+tbody tr:nth-child(even) {
+  background-color: rgb(231, 227, 227);
+}
+
 input {
   height: 150px;
   width: 250px;

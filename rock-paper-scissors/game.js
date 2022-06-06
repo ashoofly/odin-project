@@ -1,9 +1,19 @@
 const options = ["rock", "paper", "scissors"];
 const results = ["loss", "win", "tie"];
+const text = [
+  "Rock crushes Scissors.",
+  "Paper covers Rock.",
+  "Scissors cuts Paper.", 
+  "tie"
+]
 const choices = document.querySelector('#choices');
+const playerScoreSpan = document.querySelector('#playerScore');
+const computerScoreSpan = document.querySelector('#computerScore');
 const roundResult = document.querySelector('#round_result');
+const roundResultText = document.querySelector('#round_result_text');
 const buttonsDiv = document.querySelector('#buttons');
 const playButton = document.querySelector('#play-button');
+const roundHistory = document.querySelector('#round_history');
 let roundNumber = 0;
 let playerScore = 0;
 let computerScore = 0;
@@ -23,16 +33,9 @@ function renderRoundButton() {
 
   roundButton.addEventListener('click', function() {
     incrementRound();
-    removeRoundResults();
+    clearRoundResults();
     renderChoices();
     roundButton.parentNode.removeChild(roundButton);
-  });
-}
-
-function removeRoundResults() {
-  const weaponImages = document.querySelectorAll('.weapon-img');
-  weaponImages.forEach((weaponImg) => {
-    removeElement(weaponImg);
   });
 }
 
@@ -52,21 +55,27 @@ function renderPlayAgainButton() {
     roundNumber = 0;
     playerScore = 0;
     computerScore = 0;
-    finalResult.textContent = '';
+    updateScores();
+    removeAllChildren(finalResult);
     incrementRound();
-    removeAllChildren(roundResult);
+    clearRoundResults();
     renderChoices();
     removeElement(playAgain);
+    removeAllChildren(roundHistory);
   })
+}
 
+function clearRoundResults() {
+  removeAllChildren(roundResult);
+  removeAllChildren(roundResultText);
 }
 
 function displayRound() {
   const header = document.querySelector('#header');
   removeAllChildren(header);
 
-  const roundDisplay = document.createElement('h2');
-  roundDisplay.textContent = 'Round: ';
+  const roundDisplay = document.createElement('h1');
+  roundDisplay.textContent = 'Round ';
   const span = document.createElement('span');
   span.setAttribute('id', 'round_number');
   roundDisplay.appendChild(span);
@@ -145,36 +154,32 @@ function renderChoices() {
   });
 }
 
-function createGameCol(colHeader, colScore, resultId) {
-  const col = document.createElement('div');
-  col.classList.add('game-col');
-  const h3 = document.createElement('h3');
-  h3.classList.add('col-header');
-  h3.textContent = `${colHeader}: ${colScore}`;
-  col.appendChild(h3);
-  const colResult = document.createElement('div');
-  colResult.setAttribute('id', resultId);
-  col.appendChild(colResult);
-  roundResult.appendChild(col);
-  return colResult;
+function updateScores() {
+  playerScoreSpan.textContent = playerScore;
+  computerScoreSpan.textContent = computerScore;
 }
 
-function renderResult(playerSelection, computerSelection, result) {
-
+function renderResult(playerSelection, computerSelection, result, resultText) {
+  updateScores();
   removeAllChildren(roundResult);
-
-  const playerChoice = createGameCol('Player', playerScore, 'player');
-  const computerChoice = createGameCol('Computer', computerScore, 'computer');
 
   const playerImg = document.createElement('img');
   playerImg.setAttribute('src', `images/${playerSelection}.png`);
   playerImg.classList.add("weapon-img", results[result[0]]);
-  playerChoice.appendChild(playerImg);
+  roundResult.appendChild(playerImg);
+
+  const cardSpacer = document.createElement('h1');
+  cardSpacer.classList.add("card-spacer");
+  cardSpacer.textContent = "VS."
+  roundResult.appendChild(cardSpacer);
 
   const computerImg = document.createElement('img');
   computerImg.setAttribute('src', `images/${computerSelection}.png`);
   computerImg.classList.add("weapon-img", results[result[1]]);
-  computerChoice.appendChild(computerImg);
+  roundResult.appendChild(computerImg);
+
+  renderRoundWinnerText(playerSelection, computerSelection, result, resultText);
+  updateRoundHistory(playerSelection, computerSelection, result);
 
   if (!isGameOver()) {
     renderRoundButton();
@@ -183,41 +188,85 @@ function renderResult(playerSelection, computerSelection, result) {
   }
 }
 
+function getRoundResultFromPlayerPerspective(result) {
+  if (result[1] == 1) {
+    return "loss";
+  } else if (result[0] == 1) {
+    return "win";
+  } else if (result[0] == 2) {
+    return "tie";
+  }
+}
+
+function renderRoundWinnerText(playerSelection, computerSelection, result, resultText) {
+  const roundExplanation = document.createElement('h2');
+  roundExplanation.textContent = resultText == "tie" ? `${capitalize(playerSelection)} ties ${capitalize(computerSelection)}.` : resultText;
+  const roundWinnerTextElement = document.createElement('p');
+  let roundWinnerText = "";
+  if (getRoundResultFromPlayerPerspective(result) == "loss") {
+    roundWinnerText = "Computer wins this round.";
+  } else if (getRoundResultFromPlayerPerspective(result) == "win") {
+    roundWinnerText = "You win this round!";
+  } else if (getRoundResultFromPlayerPerspective(result) == "tie") {
+    roundWinnerText = "No points this round.";
+  }
+  roundWinnerTextElement.textContent = roundWinnerText;
+  roundResultText.appendChild(roundExplanation);
+  roundResultText.appendChild(roundWinnerTextElement);
+}
+
 function playRound(playerChoice, computerSelection) {
   const playerSelection = playerChoice.toLowerCase();
   removeAllChildren(choices);
 
   if (playerSelection == computerSelection) {
-    renderResult(playerSelection, computerSelection, [2, 2]);
+    renderResult(playerSelection, computerSelection, [2, 2], text[3]);
 
   } else if (playerSelection == "rock") {
     if (computerSelection == "scissors") {
       incrementPlayerScore();
-      renderResult(playerSelection, computerSelection, [1, 0]);
+      renderResult(playerSelection, computerSelection, [1, 0], text[0]);
 
     } else if (computerSelection == "paper") {
       incrementComputerScore();
-      renderResult(playerSelection, computerSelection, [0, 1]);
+      renderResult(playerSelection, computerSelection, [0, 1], text[1]);
     }  
   } else if (playerSelection == "scissors") {
     if (computerSelection == "rock") {
       incrementComputerScore();
-      renderResult(playerSelection, computerSelection, [0, 1]);
+      renderResult(playerSelection, computerSelection, [0, 1], text[0]);
 
     } else if (computerSelection == "paper") {
       incrementPlayerScore();
-      renderResult(playerSelection, computerSelection, [1, 0]);
+      renderResult(playerSelection, computerSelection, [1, 0], text[2]);
     }
   } else if (playerSelection == "paper") {
     if (computerSelection == "rock") {
       incrementPlayerScore();
-      renderResult(playerSelection, computerSelection, [1, 0]);
+      renderResult(playerSelection, computerSelection, [1, 0], text[1]);
 
     } else if (computerSelection == "scissors") {
       incrementComputerScore();
-      renderResult(playerSelection, computerSelection, [0, 1]);
+      renderResult(playerSelection, computerSelection, [0, 1], text[2]);
     }
   }
+}
+
+function updateRoundHistory(playerSelection, computerSelection, result) {
+  let tableTitle = document.querySelector('#roundHistoryTitle');
+  if (!tableTitle) {
+    tableTitle = document.createElement('h3');
+    tableTitle.setAttribute('id', 'roundHistoryTitle');
+    tableTitle.textContent = 'Round History';
+    roundHistory.appendChild(tableTitle);
+  }
+  let table = document.querySelector('#roundHistoryTable');
+  if (!table) {
+    table = createTableWithColumns('roundHistoryTable', 'Round', 'Player', 'Computer', 'Result', 'Score');
+    roundHistory.appendChild(table);
+  }
+  let score = `${playerScore}-${computerScore}`;
+  addRowToTable('roundHistoryTable', roundNumber, capitalize(playerSelection), capitalize(computerSelection), capitalize(getRoundResultFromPlayerPerspective(result)), score);
 }
 
 function isGameOver() {
@@ -228,6 +277,9 @@ function isGameOver() {
   } else if (computerScore >=5) {
     winner = 'Computer';
   }
-  finalResult.textContent = `${winner} WINS!!!`;
+  const finalResultText = document.createElement('h1');
+  finalResultText.textContent = `${winner} WINS the game!`;
+  finalResult.appendChild(finalResultText);
+
   return true;
 }

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Rock Paper Scissors</title>
   <link rel="stylesheet" href="../common/styles.css">
   <link rel="stylesheet" href="styles.css">
   <script src="../common/dom-manipulation.js" defer></script>
@@ -12,18 +12,25 @@
 </head>
 <body>
   <div id="header">
-    <h1>First to 5.</h1>
-    <h2>Player VS. Computer</h2>
+    <h1>Rock, Paper, Scissors</h1>
+    <h2>First to 5.</h2>
+  </div>
+  <div id="scores">
+    <h2 class="scoreHeading">Player: <span class="score" id="playerScore">0</span></h2>
+    <div class="card-spacer"></div>
+    <h2 class="scoreHeading">Computer: <span class="score" id="computerScore">0</span></h2>
   </div>
   <div id="round_result"></div>
+  <div id="round_result_text"></div>
   <div id="choices">
     <div><img class="weapon-img" id="rock" src="images/rock.png"></div>
     <div><img class="weapon-img" id="paper" src="images/paper.png"></div>
     <div><img class="weapon-img" id="scissors" src="images/scissors.png"></div>
   </div>
-  <h1 id="final_result"></h1>
+  <div id="final_result"></div>
   <div id="buttons">
     <button id="play-button">Play game</button>
   </div>
+  <div id="round_history"></div>
 </body>
 </html>
