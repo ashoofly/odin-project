@@ -7,6 +7,7 @@ const text = [
   "tie"
 ]
 const choices = document.querySelector('#choices');
+const scores = document.querySelector('#scores');
 const playerScoreSpan = document.querySelector('#playerScore');
 const computerScoreSpan = document.querySelector('#computerScore');
 const roundResult = document.querySelector('#round_result');
@@ -34,6 +35,7 @@ function renderRoundButton() {
   roundButton.addEventListener('click', function() {
     incrementRound();
     clearRoundResults();
+    renderCurrentScore();
     renderChoices();
     roundButton.parentNode.removeChild(roundButton);
   });
@@ -108,21 +110,22 @@ function computerPlay() {
   return options[Math.floor(Math.random()*options.length)];
 }
 
+function renderCard(choice) {
+  const div = document.createElement('div');
+  div.classList.add("card-div");
+  const card = document.createElement('img');
+  card.classList.add("weapon-img");
+  card.setAttribute('id', choice);
+  card.setAttribute('src', `images/${choice}.png`);
+  div.appendChild(card);
+  return div;
+}
+
+
 function renderChoices() {
-  const rock = document.createElement('img');
-  rock.classList.add("weapon-img");
-  rock.setAttribute('id', 'rock');
-  rock.setAttribute('src', `images/rock.png`);
-
-  const paper = document.createElement('img');
-  paper.classList.add("weapon-img");
-  paper.setAttribute('id', 'paper');
-  paper.setAttribute('src', `images/paper.png`);
-
-  const scissors = document.createElement('img');
-  scissors.classList.add("weapon-img");
-  scissors.setAttribute('id', 'scissors');
-  scissors.setAttribute('src', `images/scissors.png`);
+  const rock = renderCard('rock');
+  const paper = renderCard('paper');
+  const scissors = renderCard('scissors');
 
   choices.appendChild(rock);
   choices.appendChild(paper);
@@ -159,24 +162,81 @@ function updateScores() {
   computerScoreSpan.textContent = computerScore;
 }
 
-function renderResult(playerSelection, computerSelection, result, resultText) {
-  updateScores();
-  removeAllChildren(roundResult);
+function highlightResult(card, result) {
+  const cardImage = card.querySelector('img');
+  cardImage.classList.add(result);
+}
 
-  const playerImg = document.createElement('img');
-  playerImg.setAttribute('src', `images/${playerSelection}.png`);
-  playerImg.classList.add("weapon-img", results[result[0]]);
-  roundResult.appendChild(playerImg);
+function createGameCol(whichPlayer, score, selection, result) {
+  const gameCol = document.createElement('div');
+  gameCol.classList.add("game-col");
 
+  const scoreHeading = document.createElement('h2');
+  scoreHeading.textContent = `${whichPlayer}:`;
+  const scoreSpan = document.createElement('span');
+  scoreSpan.classList.add("score");
+  scoreSpan.textContent = score;
+  scoreHeading.appendChild(scoreSpan);
+  gameCol.appendChild(scoreHeading);
+
+  const resultCard = renderCard(selection);
+  highlightResult(resultCard, result);
+  gameCol.appendChild(resultCard);
+
+  return gameCol;
+}
+
+function removeScoreHeader() {
+  removeAllChildren(scores);
+}
+
+function renderCurrentScore() {
+  const playerScoreHeading = document.createElement('h2');
+  playerScoreHeading.classList.add('scoreHeading');
+  playerScoreHeading.textContent = `Player:`;
+  const playerScoreSpan = document.createElement('span');
+  playerScoreSpan.classList.add("score");
+  playerScoreSpan.textContent = playerScore;
+  playerScoreHeading.appendChild(playerScoreSpan);
+
+  const computerScoreHeading = document.createElement('h2');
+  computerScoreHeading.classList.add('scoreHeading');
+  computerScoreHeading.textContent = `Computer:`;
+  const computerScoreSpan = document.createElement('span');
+  computerScoreSpan.classList.add("score");
+  computerScoreSpan.textContent = computerScore;
+  computerScoreHeading.appendChild(computerScoreSpan);
+
+  scores.appendChild(playerScoreHeading);
+  scores.appendChild(computerScoreHeading);
+}
+
+function createVSCol() {
+  const spaceCol = document.createElement('div');
+  spaceCol.classList.add("game-col");
+  const spaceHeading = document.createElement('h2');
+  spaceHeading.textContent = " ";
+  spaceCol.appendChild(spaceHeading);
   const cardSpacer = document.createElement('h1');
   cardSpacer.classList.add("card-spacer");
   cardSpacer.textContent = "VS."
-  roundResult.appendChild(cardSpacer);
+  spaceCol.appendChild(cardSpacer);
+  return spaceCol
+}
 
-  const computerImg = document.createElement('img');
-  computerImg.setAttribute('src', `images/${computerSelection}.png`);
-  computerImg.classList.add("weapon-img", results[result[1]]);
-  roundResult.appendChild(computerImg);
+function renderResult(playerSelection, computerSelection, result, resultText) {
+  updateScores();
+
+  removeAllChildren(roundResult);
+  removeScoreHeader();
+
+  const playerCol = createGameCol('Player', playerScore, playerSelection, results[result[0]]);
+  const versusCol = createVSCol();
+  const computerCol = createGameCol('Computer', computerScore, computerSelection, results[result[1]]);
+  
+  roundResult.appendChild(playerCol);
+  roundResult.appendChild(versusCol);
+  roundResult.appendChild(computerCol);
 
   renderRoundWinnerText(playerSelection, computerSelection, result, resultText);
   updateRoundHistory(playerSelection, computerSelection, result);
