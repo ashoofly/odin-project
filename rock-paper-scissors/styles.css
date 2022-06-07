@@ -26,6 +26,7 @@ body {
 
 #choices {
   display: flex;
+  flex-wrap: wrap;
 }
 
 #buttons {
