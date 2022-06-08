@@ -13,17 +13,13 @@ const computerScoreSpan = document.querySelector('#computerScore');
 const roundResult = document.querySelector('#round_result');
 const roundResultText = document.querySelector('#round_result_text');
 const buttonsDiv = document.querySelector('#buttons');
-const playButton = document.querySelector('#play-button');
 const roundHistory = document.querySelector('#round_history');
 let roundNumber = 0;
 let playerScore = 0;
 let computerScore = 0;
 
-playButton.addEventListener('click', function() {
-  displayRound();
-  resetChoices();
-  playButton.parentNode.removeChild(playButton);
-});
+renderChoices();
+
 
 function renderRoundButton() {
   const roundButton = document.createElement('button');
@@ -95,6 +91,9 @@ const finalResult = document.querySelector('#final_result');
 function incrementRound() {
   roundNumber++;
   const roundDisplay = document.querySelector('#round_number');
+  if (!roundDisplay) {
+    displayRound();
+  }
   roundDisplay.textContent = roundNumber;
 }
 
@@ -158,8 +157,11 @@ function renderChoices() {
 }
 
 function updateScores() {
-  playerScoreSpan.textContent = playerScore;
-  computerScoreSpan.textContent = computerScore;
+  if (playerScoreSpan && computerScoreSpan) {
+    playerScoreSpan.textContent = playerScore;
+    computerScoreSpan.textContent = computerScore;
+  }
+
 }
 
 function highlightResult(card, result) {
