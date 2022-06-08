@@ -7,19 +7,43 @@ const text = [
   "tie"
 ]
 const choices = document.querySelector('#choices');
-const scores = document.querySelector('#scores');
-const playerScoreSpan = document.querySelector('#playerScore');
-const computerScoreSpan = document.querySelector('#computerScore');
+const running_score = document.querySelector('#running_score');
 const roundResult = document.querySelector('#round_result');
 const roundResultText = document.querySelector('#round_result_text');
 const buttonsDiv = document.querySelector('#buttons');
 const roundHistory = document.querySelector('#round_history');
+const finalResult = document.querySelector('#final_result');
+
 let roundNumber = 0;
 let playerScore = 0;
 let computerScore = 0;
-
 let firstRound = true;
 renderChoices();
+
+function resetGame() {
+  roundNumber = 0;
+  playerScore = 0;
+  computerScore = 0;
+  renderCurrentScore();
+  removeAllChildren(finalResult);
+  removeAllChildren(roundHistory);
+  clearRoundResults();
+
+  renderChoices();
+  incrementRound();
+}
+
+function startNewRound() {
+  clearRoundResults();
+  renderCurrentScore();
+  renderChoices();
+  incrementRound();
+}
+
+function clearRoundResults() {
+  removeAllChildren(roundResult);
+  removeAllChildren(roundResultText);
+}
 
 function renderRoundButton() {
   const roundButton = document.createElement('button');
@@ -29,17 +53,9 @@ function renderRoundButton() {
   buttons.appendChild(roundButton);
 
   roundButton.addEventListener('click', function() {
-    incrementRound();
-    clearRoundResults();
-    renderCurrentScore();
-    renderChoices();
+    startNewRound();
     roundButton.parentNode.removeChild(roundButton);
   });
-}
-
-function removeRoundButton() {
-  const roundButton = document.querySelector('#round-button');
-  removeElement(roundButton);
 }
 
 function renderPlayAgainButton() {
@@ -50,25 +66,12 @@ function renderPlayAgainButton() {
   buttons.appendChild(playAgain);
 
   playAgain.addEventListener('click', function() {
-    roundNumber = 0;
-    playerScore = 0;
-    computerScore = 0;
-    updateScores();
-    removeAllChildren(finalResult);
-    incrementRound();
-    clearRoundResults();
-    renderChoices();
-    removeElement(playAgain);
-    removeAllChildren(roundHistory);
+    resetGame();
+    playAgain.parentNode.removeChild(playAgain);
   })
 }
 
-function clearRoundResults() {
-  removeAllChildren(roundResult);
-  removeAllChildren(roundResultText);
-}
-
-function displayRound() {
+function renderRoundHeader() {
   const header = document.querySelector('#header');
   removeAllChildren(header);
 
@@ -81,34 +84,6 @@ function displayRound() {
   return span;
 }
 
-function resetChoices() {
-  removeAllChildren(choices);
-  renderChoices();
-}
-
-const finalResult = document.querySelector('#final_result');
-
-function incrementRound() {
-  roundNumber++;
-  let roundDisplay = document.querySelector('#round_number');
-  if (!roundDisplay) {
-    roundDisplay = displayRound();
-  }
-  roundDisplay.textContent = roundNumber;
-}
-
-function incrementPlayerScore() {
-  playerScore++;
-}
-
-function incrementComputerScore() {
-  computerScore++;
-}
-
-function computerPlay() {
-  return options[Math.floor(Math.random()*options.length)];
-}
-
 function renderCard(choice) {
   const div = document.createElement('div');
   div.classList.add("card-div");
@@ -119,7 +94,6 @@ function renderCard(choice) {
   div.appendChild(card);
   return div;
 }
-
 
 function renderChoices() {
   const rock = renderCard('rock');
@@ -164,12 +138,81 @@ function renderChoices() {
   });
 }
 
-function updateScores() {
-  if (playerScoreSpan && computerScoreSpan) {
-    playerScoreSpan.textContent = playerScore;
-    computerScoreSpan.textContent = computerScore;
-  }
+function renderResult(playerSelection, computerSelection, result, resultText) {
+  removeAllChildren(choices);
+  removeAllChildren(running_score);
 
+  const playerCol = createGameCol('Player', playerScore, playerSelection, results[result[0]]);
+  const versusCol = createVSCol();
+  const computerCol = createGameCol('Computer', computerScore, computerSelection, results[result[1]]);
+  
+  roundResult.appendChild(playerCol);
+  roundResult.appendChild(versusCol);
+  roundResult.appendChild(computerCol);
+
+  renderRoundWinnerText(playerSelection, computerSelection, result, resultText);
+  renderRoundHistory(playerSelection, computerSelection, result);
+
+  if (!isGameOver()) {
+    renderRoundButton();
+  } else {
+    renderPlayAgainButton();
+  }
+}
+
+function renderRoundWinnerText(playerSelection, computerSelection, result, resultText) {
+  const roundExplanation = document.createElement('h2');
+  roundExplanation.textContent = resultText == "tie" ? `${capitalize(playerSelection)} ties ${capitalize(computerSelection)}.` : resultText;
+  const roundWinnerTextElement = document.createElement('p');
+  let roundWinnerText = "";
+  if (getRoundResultFromPlayerPerspective(result) == "loss") {
+    roundWinnerText = "Computer wins this round.";
+  } else if (getRoundResultFromPlayerPerspective(result) == "win") {
+    roundWinnerText = "You win this round!";
+  } else if (getRoundResultFromPlayerPerspective(result) == "tie") {
+    roundWinnerText = "No points this round.";
+  }
+  roundWinnerTextElement.textContent = roundWinnerText;
+  roundResultText.appendChild(roundExplanation);
+  roundResultText.appendChild(roundWinnerTextElement);
+}
+
+function renderCurrentScore() {
+  const playerScoreHeading = document.createElement('h2');
+  playerScoreHeading.classList.add('scoreHeading');
+  playerScoreHeading.textContent = `Player:`;
+  playerScoreSpan = document.createElement('span');
+  playerScoreSpan.classList.add("score");
+  playerScoreSpan.textContent = playerScore;
+  playerScoreHeading.appendChild(playerScoreSpan);
+
+  const computerScoreHeading = document.createElement('h2');
+  computerScoreHeading.classList.add('scoreHeading');
+  computerScoreHeading.textContent = `Computer:`;
+  computerScoreSpan = document.createElement('span');
+  computerScoreSpan.classList.add("score");
+  computerScoreSpan.textContent = computerScore;
+  computerScoreHeading.appendChild(computerScoreSpan);
+
+  running_score.appendChild(playerScoreHeading);
+  running_score.appendChild(computerScoreHeading);
+}
+
+function renderRoundHistory(playerSelection, computerSelection, result) {
+  let tableTitle = document.querySelector('#roundHistoryTitle');
+  if (!tableTitle) {
+    tableTitle = document.createElement('h3');
+    tableTitle.setAttribute('id', 'roundHistoryTitle');
+    tableTitle.textContent = 'Round History';
+    roundHistory.appendChild(tableTitle);
+  }
+  let table = document.querySelector('#roundHistoryTable');
+  if (!table) {
+    table = createTableWithColumns('roundHistoryTable', 'Round', 'Player', 'Computer', 'Result', 'Score');
+    roundHistory.appendChild(table);
+  }
+  let score = `${playerScore}-${computerScore}`;
+  addRowToTable('roundHistoryTable', roundNumber, capitalize(playerSelection), capitalize(computerSelection), capitalize(getRoundResultFromPlayerPerspective(result)), score);
 }
 
 function highlightResult(card, result) {
@@ -196,31 +239,6 @@ function createGameCol(whichPlayer, score, selection, result) {
   return gameCol;
 }
 
-function removeScoreHeader() {
-  removeAllChildren(scores);
-}
-
-function renderCurrentScore() {
-  const playerScoreHeading = document.createElement('h2');
-  playerScoreHeading.classList.add('scoreHeading');
-  playerScoreHeading.textContent = `Player:`;
-  const playerScoreSpan = document.createElement('span');
-  playerScoreSpan.classList.add("score");
-  playerScoreSpan.textContent = playerScore;
-  playerScoreHeading.appendChild(playerScoreSpan);
-
-  const computerScoreHeading = document.createElement('h2');
-  computerScoreHeading.classList.add('scoreHeading');
-  computerScoreHeading.textContent = `Computer:`;
-  const computerScoreSpan = document.createElement('span');
-  computerScoreSpan.classList.add("score");
-  computerScoreSpan.textContent = computerScore;
-  computerScoreHeading.appendChild(computerScoreSpan);
-
-  scores.appendChild(playerScoreHeading);
-  scores.appendChild(computerScoreHeading);
-}
-
 function createVSCol() {
   const spaceCol = document.createElement('div');
   spaceCol.classList.add("game-col");
@@ -234,28 +252,25 @@ function createVSCol() {
   return spaceCol
 }
 
-function renderResult(playerSelection, computerSelection, result, resultText) {
-  updateScores();
-
-  removeAllChildren(roundResult);
-  removeScoreHeader();
-
-  const playerCol = createGameCol('Player', playerScore, playerSelection, results[result[0]]);
-  const versusCol = createVSCol();
-  const computerCol = createGameCol('Computer', computerScore, computerSelection, results[result[1]]);
-  
-  roundResult.appendChild(playerCol);
-  roundResult.appendChild(versusCol);
-  roundResult.appendChild(computerCol);
-
-  renderRoundWinnerText(playerSelection, computerSelection, result, resultText);
-  updateRoundHistory(playerSelection, computerSelection, result);
-
-  if (!isGameOver()) {
-    renderRoundButton();
-  } else {
-    renderPlayAgainButton();
+function incrementRound() {
+  roundNumber++;
+  let roundDisplay = document.querySelector('#round_number');
+  if (!roundDisplay) {
+    roundDisplay = renderRoundHeader();
   }
+  roundDisplay.textContent = roundNumber;
+}
+
+function incrementPlayerScore() {
+  playerScore++;
+}
+
+function incrementComputerScore() {
+  computerScore++;
+}
+
+function computerPlay() {
+  return options[Math.floor(Math.random()*options.length)];
 }
 
 function getRoundResultFromPlayerPerspective(result) {
@@ -268,26 +283,8 @@ function getRoundResultFromPlayerPerspective(result) {
   }
 }
 
-function renderRoundWinnerText(playerSelection, computerSelection, result, resultText) {
-  const roundExplanation = document.createElement('h2');
-  roundExplanation.textContent = resultText == "tie" ? `${capitalize(playerSelection)} ties ${capitalize(computerSelection)}.` : resultText;
-  const roundWinnerTextElement = document.createElement('p');
-  let roundWinnerText = "";
-  if (getRoundResultFromPlayerPerspective(result) == "loss") {
-    roundWinnerText = "Computer wins this round.";
-  } else if (getRoundResultFromPlayerPerspective(result) == "win") {
-    roundWinnerText = "You win this round!";
-  } else if (getRoundResultFromPlayerPerspective(result) == "tie") {
-    roundWinnerText = "No points this round.";
-  }
-  roundWinnerTextElement.textContent = roundWinnerText;
-  roundResultText.appendChild(roundExplanation);
-  roundResultText.appendChild(roundWinnerTextElement);
-}
-
 function playRound(playerChoice, computerSelection) {
   const playerSelection = playerChoice.toLowerCase();
-  removeAllChildren(choices);
 
   if (playerSelection == computerSelection) {
     renderResult(playerSelection, computerSelection, [2, 2], text[3]);
@@ -322,29 +319,12 @@ function playRound(playerChoice, computerSelection) {
   }
 }
 
-function updateRoundHistory(playerSelection, computerSelection, result) {
-  let tableTitle = document.querySelector('#roundHistoryTitle');
-  if (!tableTitle) {
-    tableTitle = document.createElement('h3');
-    tableTitle.setAttribute('id', 'roundHistoryTitle');
-    tableTitle.textContent = 'Round History';
-    roundHistory.appendChild(tableTitle);
-  }
-  let table = document.querySelector('#roundHistoryTable');
-  if (!table) {
-    table = createTableWithColumns('roundHistoryTable', 'Round', 'Player', 'Computer', 'Result', 'Score');
-    roundHistory.appendChild(table);
-  }
-  let score = `${playerScore}-${computerScore}`;
-  addRowToTable('roundHistoryTable', roundNumber, capitalize(playerSelection), capitalize(computerSelection), capitalize(getRoundResultFromPlayerPerspective(result)), score);
-}
-
 function isGameOver() {
-  if (playerScore < 5 && computerScore < 5) return false;
+  if (playerScore < 3 && computerScore < 3) return false;
   let winner;
-  if (playerScore >=5) {
+  if (playerScore >=3) {
     winner = 'Player';
-  } else if (computerScore >=5) {
+  } else if (computerScore >=3) {
     winner = 'Computer';
   }
   const finalResultText = document.createElement('h1');
