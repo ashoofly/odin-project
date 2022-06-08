@@ -12,7 +12,21 @@ body {
   }
 
   .weapon-img {
-    max-height: 18vh;
+    max-height: 20vh;
+  }
+
+  .card-div {
+    padding: 5px;
+  }
+}
+
+@media (min-width: 769px) {
+  .weapon-img {
+    max-height: 250px;
+  }
+
+  .card-div {
+    padding: 15px;
   }
 }
 
@@ -60,9 +74,9 @@ button {
   justify-content: center;
 }
 
-.card-div {
+/* .card-div {
   padding: 15px;
-}
+} */
 
 #round_result {
   display: flex;
