@@ -1,0 +1,128 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  #choices {
+    flex-direction: column;
+  }
+
+  .weapon-img {
+    max-height: 20vh;
+  }
+
+  .card-div {
+    padding: 5px;
+  }
+}
+
+@media (min-width: 769px) {
+  .weapon-img {
+    max-height: 250px;
+  }
+
+  .card-div {
+    padding: 15px;
+  }
+}
+
+#header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#running_score {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+#round_result {
+  display: flex;
+  justify-content: space-between;
+}
+
+#round_result_text {
+  text-align: center;
+  white-space: pre;
+  margin-top: 10px;
+}
+
+#choices {
+  display: flex;
+}
+
+#buttons {
+  margin-top: 15px;
+}
+
+#round_history {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+button {
+  background-color: #3882F6;
+  color: #F9FAF8;
+}
+
+.card-div:active {
+  transform: scale(1.1);
+  transition: 0.1s;
+}
+
+.game-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+table {
+  max-width: 100%;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.score {
+  padding-left: 5px;
+}
+
+.scoreHeading {
+  display: flex;
+  justify-content: center;
+  margin: 15px;
+}
+
+.card-spacer {
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.weapon-img {
+  max-width: 100%;
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.player-hover {
+  border: 5px solid #2098D1;
+}
+
+.win {
+  border: 5px solid rgb(65, 201, 65);
+}
+
+.loss {
+  border: 5px solid red;
+}
+
+.tie {
+  border: 5px solid orange;
+}

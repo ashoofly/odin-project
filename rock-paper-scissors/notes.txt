@@ -1,0 +1,9 @@
+- infinitely more challenging: create game where you can play against live person
+* need to send same URL to players
+* different sessions for different games
+
+
+TODO:
+[] Ensure button always on first page, even if window is short
+[] When mobile screen, vertical cards 3 in a row
+[] Push effect on mobile
