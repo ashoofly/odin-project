@@ -18,8 +18,8 @@ let roundNumber = 0;
 let playerScore = 0;
 let computerScore = 0;
 
+let firstRound = true;
 renderChoices();
-
 
 function renderRoundButton() {
   const roundButton = document.createElement('button');
@@ -78,7 +78,7 @@ function displayRound() {
   span.setAttribute('id', 'round_number');
   roundDisplay.appendChild(span);
   header.appendChild(roundDisplay);  
-  incrementRound();
+  return span;
 }
 
 function resetChoices() {
@@ -90,9 +90,9 @@ const finalResult = document.querySelector('#final_result');
 
 function incrementRound() {
   roundNumber++;
-  const roundDisplay = document.querySelector('#round_number');
+  let roundDisplay = document.querySelector('#round_number');
   if (!roundDisplay) {
-    displayRound();
+    roundDisplay = displayRound();
   }
   roundDisplay.textContent = roundNumber;
 }
@@ -141,6 +141,14 @@ function renderChoices() {
     weapon.addEventListener('mouseout', function() {
       weapon.classList.toggle('player-hover');
     });
+
+    if (firstRound) {
+      weapon.addEventListener('click', function() {
+        incrementRound();
+        firstRound = false;
+      });
+    }
+
   });
   
   rock.addEventListener('click', function(e) {
