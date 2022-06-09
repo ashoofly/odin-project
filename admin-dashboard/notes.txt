@@ -1,0 +1,6 @@
+TODO:
+
+- add hover effect for card icons
+- add different hover effect for card itself
+- fix layout when stretched
+- fix layout when tiny screen
