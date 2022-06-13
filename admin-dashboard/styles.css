@@ -9,7 +9,7 @@ html, body {
 }
 .container {
   display: grid;
-  grid-template-columns: 1fr 5fr;
+  grid-template-columns: minmax(min-content, 250px) 5fr;
   min-height: 100vh;
   grid-template-rows: 1fr 7fr;
 }
@@ -113,9 +113,10 @@ li {
 #header-icons {
   grid-column: 2 / 3;
   display: grid;
-  grid-template-columns: 1fr 1fr 2fr;
+  grid-template-columns: repeat(2, 60px) 150px;
   align-items: center;
   justify-items: center;
+  justify-self: right;
 }
 
 #header-banner {
@@ -153,7 +154,7 @@ li {
 
 #welcome {
   display: grid;
-  grid-template-columns: 1fr 8fr;
+  grid-template-columns: 80px 8fr;
 }
 
 #greeting {
@@ -191,7 +192,7 @@ li {
   background-color: rgb(226,232,240);
   grid-column: 2 / 3;
   display: grid;
-  grid-template-columns: 3fr 1fr;
+  grid-template-columns: 5fr 300px;
   grid-template-rows: 1fr 1fr;
   grid-row: 2 / 3;
 }
@@ -236,7 +237,7 @@ h4 {
   display: grid;
   column-gap: 25px;
   row-gap: 30px;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 }
 
 #project-container {
