@@ -1,0 +1,87 @@
+* {
+  font-family: 'Bookman Old Style', serif;
+
+}
+body {
+  background-image: url("images/library.jpg");
+  background-size: cover;
+}
+
+button {
+}
+
+#new_book {
+  background-color: rgb(245,237,217);
+  color: #713f12;
+  font-weight: bold;
+}
+
+
+.header { 
+  padding: 15px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+#library {
+  color: rgb(245,237,217);
+  padding: 15px;
+
+}
+
+h1 {
+  font-size: 300%;
+}
+#shelf {
+  padding: 15px;
+  display: grid;
+  color: black;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 300px));
+  gap: 25px;
+}
+
+
+.book-title {
+  color: rgb(77,51,23);
+}
+
+.book-author {
+  color: rgb(152,107,57);
+}
+
+.blurb, .tags {
+  color: rgb(152,107,57);
+  padding-right: 50px;
+}
+
+.card-icons {
+  display: flex;
+  justify-content: flex-end;
+  column-gap: 5px;
+}
+
+.book-card {
+  max-height: 375px;
+  border-style: none none none solid;
+  border-left-width: 8px;
+  border-left-color: orange;
+  padding-bottom: 20px;
+  background-color: rgb(245,237,217);
+  border-radius: 10px;
+  padding: 15px;
+}
+
+
+.card-icon {
+  filter: invert(38%);
+  cursor: pointer;
+}
+
+.read {
+  filter: invert(62%) sepia(74%) saturate(453%) hue-rotate(70deg) brightness(90%) contrast(83%);
+}
+
+.footer {
+  color: rgb(245,237,217);
+
+}
