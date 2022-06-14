@@ -7,42 +7,53 @@
   <title>Library</title>
   <link rel="stylesheet" href="../common/styles.css">
   <link rel="stylesheet" href="styles.css">
+  <script src="../common/dom-manipulation.js" defer></script>
   <script src="library.js" defer></script>
 </head>
 <body>
   <div class="container">
-    <div class="header">
-      <button id="new_book" class="hvr-subtle-grow"> + New Book</button>
-    </div>
-    <div id="library">
-      <h1>My Library</h1>
-      <div id="shelf">
-        <div class="book-card hvr-subtle-grow">
-          <h3 class="book-title">My First Book</h3>
-          <h4 class="book-author">Book Author</h4>
-          <p class="blurb">This is the book blurb. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore mag.</p>
-          <p class="tags">Tags: fiction, sci-fi</p>
-          <div class="card-icons">
-            <img class="card-icon hvr-grow read" src="images/read.svg">
-            <img class="card-icon hvr-grow" src="images/remove.svg">
-          </div>
+    <div class="content">
+      <div class="header">
+        <button id="new_book" class="hvr-subtle-grow"> + Add a book</button>
+      </div>
+      <div id="library">
+        <div id="add_book_modal" class="modal">
+          <div id="close-modal"><b>&times;</b></div>
+          <form id="add-book-form" action="">
+            <div class="modal-container">
+              <h2>Add a book</h2>
+              <div class="form_fields">
+                <div class="form-field">
+                  <label for="book_title"><b>Title</b></label>
+                  <input type="text" name="book_title" required>
+                </div>
+                <div class="form-field">
+                  <label for="book_author"><b>Author</b></label>
+                  <input type="text" name="book_author" required>
+                </div>
+                <div class="form-field">
+                  <label for="description"><b>Description</b></label>
+                  <textarea id="description" rows="10" cols="50" name="description" required></textarea>
+                </div>
+                <div class="form-field">
+                  <label for="tags"><b>Tags</b></label>
+                  <input type="text" name="tags" placeholder="fiction, sci-fi">
+                </div>
+                <div class="form-field checkbox-field">
+                  <label for="read"><b>Read?</b></label>
+                  <input type="checkbox" name="read">
+                </div>
+              </div>
+              <button type="submit">Add Book</button>
+            </div>
+          </form>
         </div>
-        <div class="book-card hvr-subtle-grow">
-          <h3 class="book-title">My Second Book</h3>
-          <h4 class="book-author">Book Author</h4>
-          <p class="blurb">This is the book blurb. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore mag.</p>
-          <p class="tags">Tags: nonfiction, memoir</p>
-          <div class="card-icons">
-            <img class="card-icon hvr-grow" src="images/unread.svg">
-            <img class="card-icon hvr-grow" src="images/remove.svg">
-          </div>
-        </div>
+        <h1>My Library</h1>
+        <div id="shelf"></div>
       </div>
     </div>
     <div class="footer">
-      Photo by Alfons Morales on Unsplash
-      https://unsplash.com/@alfonsmc10
-      https://unsplash.com/photos/YLSwjSy7stw?utm_source=unsplash&utm_medium=referral&utm_content=creditShareLink
+      <p>Photo by <a href="https://unsplash.com/@alfonsmc10">Alfons Morales</a> on <a href="https://unsplash.com/photos/YLSwjSy7stw?utm_source=unsplash&utm_medium=referral&utm_content=creditShareLink">Unsplash</a></p>
     </div>
   </div>
 </body>

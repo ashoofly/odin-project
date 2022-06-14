@@ -1,7 +1,7 @@
-- modal pop up when New Book press
-- enter book info and submit form
 
-- allow reader to check book as read / toggle to unread
-- allow reader to remove book from shelf
 
-- render tags with spaces between tags in list
+
+
+- localStorage
+- help tooltip on hovering over icon
+- line up all the cards so they are same size and lines are lined up
