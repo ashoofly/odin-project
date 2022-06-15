@@ -13,15 +13,13 @@
 <body>
   <div class="container">
     <div class="content">
-      <div class="header">
-        <button id="new_book" class="hvr-subtle-grow"> + Add a book</button>
-      </div>
       <div id="library">
+
         <div id="add_book_modal" class="modal">
           <div id="close-modal"><b>&times;</b></div>
           <form id="add-book-form" action="">
             <div class="modal-container">
-              <h2>Add a book</h2>
+              <div class="book-title">Add a book</div>
               <div class="form_fields">
                 <div class="form-field">
                   <label for="book_title"><b>Title</b></label>
@@ -48,13 +46,24 @@
             </div>
           </form>
         </div>
-        <h1>My Library</h1>
+        <h1 class="title">My Library</h1>
+        <p class="copy-bg">This app uses your browser's local storage to keep track of your personal library. In other words, only you can see the contents of your library; it is not shared across the Internet.</p>
+        <div class="header">
+          <button id="new_book" class="hvr-subtle-grow"> + Add a book</button>
+        </div>
         <div id="shelf"></div>
       </div>
     </div>
-    <div class="footer">
-      <p>Photo by <a href="https://unsplash.com/@alfonsmc10">Alfons Morales</a> on <a href="https://unsplash.com/photos/YLSwjSy7stw?utm_source=unsplash&utm_medium=referral&utm_content=creditShareLink">Unsplash</a></p>
+    <div>
+      <div class="reset">
+        <button id="clear_library" class="hvr-subtle-grow">Clear library</button>
+      </div>
+      <div class="footer">
+        <p>Created by <a href="https://github.com/ashoofly/odin-project">ashoofly</a> as part of <a href="https://www.theodinproject.com/lessons/node-path-javascript-library">The Odin Project</a></p>
+        <p>Photo by <a href="https://unsplash.com/@alfonsmc10">Alfons Morales</a> on <a href="https://unsplash.com/photos/YLSwjSy7stw?utm_source=unsplash&utm_medium=referral&utm_content=creditShareLink">Unsplash</a></p>
+      </div>
     </div>
+
   </div>
 </body>
 </html>

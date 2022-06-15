@@ -1,7 +1,6 @@
 
 
+enhancements:
+* drag cards around to sort
+* sort by tags
 
-
-- localStorage
-- help tooltip on hovering over icon
-- line up all the cards so they are same size and lines are lined up

@@ -43,3 +43,15 @@ function addRowToTable(tableId, ...colValues) {
   tableBody.appendChild(row);
   return tableBody;
 }
+
+function addBottomTooltipToIcon(icon, text) {
+  let iconTooltipContainer = document.createElement('div');
+  iconTooltipContainer.classList.add('tooltip');
+  iconTooltipContainer.appendChild(icon);
+  let iconTooltipBottom = document.createElement('div');
+  iconTooltipBottom.classList.add('bottom');
+  iconTooltipBottom.textContent = text;
+  iconTooltipContainer.appendChild(iconTooltipBottom);
+  return iconTooltipContainer;
+}
+
